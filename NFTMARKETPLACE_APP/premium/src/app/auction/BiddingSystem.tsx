@@ -233,33 +233,33 @@ export default function BiddingSystem({
         <Button defaultConnectButton={true} variant="connect" />
       </div>
       <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-4 flex flex-col h-[280px] sm:h-[350px] lg:h-[300px]">
-        <h2 className="text-sm font-bold text-white md:mb-2">Bidding</h2>
+        <h2 className="text-xs font-bold text-white md:mb-2">Bidding</h2>
         <div className="flex-grow h-auto flex mb-1 md:mb-10">
           <div className="flex-1 pr-2">
-            <p className="text-sm sm:text-base text-white md:mb-2 capitalize">
+            <p className="text-xs sm:text-base text-white md:mb-2 capitalize">
               Current Bid:{" "}
               {currentBid ? `${currentBid} ${symbol}` : `0 ${symbol}`}
             </p>
-            <p className="text-sm sm:text-base text-white md:mb-2">
+            <p className="text-xs sm:text-base text-white md:mb-2">
               Time Left: {hours?.toString().padStart(2, "0")}:
               {minutes?.toString().padStart(2, "0")}:
               {seconds?.toString().padStart(2, "0")}
             </p>
-            <p className="text-sm sm:text-base text-white md:mb-2 capitalize">
-              Minimum Bid: {minBid} {symbol}
+            <p className="text-xs sm:text-base text-white md:mb-2 capitalize">
+              Min Bid: {minBid} {symbol}
             </p>
           </div>
           <div className="flex-1 pl-2">
-            <p className="text-sm sm:text-base text-white md:mb-2 capitalize">
+            <p className="text-xs sm:text-base text-white md:mb-2 capitalize">
               Bid To Match: {bidToMatch} {symbol}
             </p>
-            <p className="text-sm sm:text-base text-white md:mb-2 capitalize">
+            <p className="text-xs sm:text-base text-white md:mb-2 capitalize">
               Buyout Amount: {buyoutBid} {symbol}
             </p>
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="h-16 overflow-hidden mb-2">
+          <div className="h-12 overflow-hidden mb-2">
             {bids.map((bid, index) => (
               <div
                 key={bid.id}
