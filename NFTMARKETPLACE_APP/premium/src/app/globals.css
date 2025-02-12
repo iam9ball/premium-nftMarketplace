@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	line-height: 1.5;
+	font-weight: 400;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-family: 'Inter' sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
+	font-variation-settings: 'slnt' 0;
+}
+
+@layer base {
+	body {
+		height: 100%;
+		box-sizing: border-box;
+}
+}
+
+.swiper-pagination-bullet {
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: all 0.6s ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+  width: 32px;
+  background-color: #6f1223;
+  border-radius: 14px;
+}
+
+/* Global styles for the TimeRangePicker dropdown */
+.responsive-dropdown {
+  max-width: 100vw;
+  overflow: visible;
+  position: fixed;
+  z-index: 1050;
+}
+
+/* Large screens (desktops) */
+@media (min-width: 1200px) {
+  .responsive-dropdown {
+    width: auto;
+    max-width: 800px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .responsive-dropdown .ant-picker-panels {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+/* Medium screens */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .responsive-dropdown {
+    width: 90%;
+    max-width: 700px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .responsive-dropdown .ant-picker-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Small screens */
+@media (max-width: 767px) {
+  .responsive-dropdown {
+    width: 98% !important;
+    max-width: 98% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .responsive-dropdown .ant-picker-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Adjusted layout: Date panel takes 70%, Time panel takes 30% */
+  .responsive-dropdown .ant-picker-date-panel {
+    width: 70% !important;
+  }
+
+  .responsive-dropdown .ant-picker-time-panel {
+    width: 30% !important;
+    display: flex;
+    flex-direction: column; /* Stack time display above time setters */
+    align-items: center;
+  }
+
+  /* ✅ Ensure the chosen time (10:45) is at the top */
+  .responsive-dropdown .ant-picker-time-panel-header {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    width: 100%;
+  }
+
+  /* ✅ Make the hour & minute selectors inline */
+  .responsive-dropdown .ant-picker-time-panel-body {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    width: 100% !important;
+  }
+
+  /* Ensure both hour and minute selectors take equal width */
+  .responsive-dropdown .ant-picker-time-panel-column {
+    flex: 1 !important;
+    width: 50% !important;
+    min-width: unset !important;
+    max-width: unset !important;
+  }
+
+  /* Make the hour/minute cells fully visible */
+  .responsive-dropdown .ant-picker-time-panel-cell-inner {
+    width: 100% !important;
+    text-align: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    font-size: 12px !important;
+    padding: 4px 0 !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 374px) {
+  .responsive-dropdown {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Further adjust layout: Date panel 70%, Time panel 30% */
+  .responsive-dropdown .ant-picker-date-panel {
+    width: 70% !important;
+  }
+
+  .responsive-dropdown .ant-picker-time-panel {
+    width: 30% !important;
+    display: flex;
+    flex-direction: column; /* Stack chosen time on top */
+    align-items: center;
+  }
+
+  /* ✅ Ensure the chosen time (10:45) is at the top */
+  .responsive-dropdown .ant-picker-time-panel-header {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    width: 100%;
+  }
+
+  /* ✅ Keep the hour & minute pickers inline */
+  .responsive-dropdown .ant-picker-time-panel-body {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    width: 100% !important;
+  }
+
+  .responsive-dropdown .ant-picker-time-panel-column {
+    flex: 1 !important;
+    width: 50% !important;
+  }
+}
