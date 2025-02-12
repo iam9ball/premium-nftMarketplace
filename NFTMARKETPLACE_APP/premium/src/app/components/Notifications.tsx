@@ -10,7 +10,7 @@ import { ipfsToHttp } from "../utils/ipfsToHttp";
 import { tokenInfo, useCurrency } from "@/app/hooks/useCurrency";
 import { marketContract } from "@/app/constant";
 import { Contract } from "../utils/Contract";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { useNotifStore } from "../hooks/useNotifStore";
 import { formatTimeAgo } from "../utils/timeFormatter";
 import { acceptOffer, rejectOffer } from "../contracts/offer";
@@ -58,8 +58,7 @@ export default function Notification({ isOpen, address }: NotificationProps) {
   } = useNotifStore();
   const account = useActiveAccount();
   const [isDisabled, setIsDisabled] = useState(false);
-    const [copied, setCopied] = useState(false);
-
+  const [copied, setCopied] = useState(false);
 
   function isPromiseFulfilled<T>(
     result: PromiseSettledResult<T>
@@ -78,7 +77,6 @@ export default function Notification({ isOpen, address }: NotificationProps) {
       console.error("Failed to copy:", err);
     }
   };
-
 
   const handleAcceptOffer = async (offerId: bigint, listingId: bigint) => {
     if (account) {
@@ -124,19 +122,6 @@ export default function Notification({ isOpen, address }: NotificationProps) {
     }
   };
 
-
-
-  const NOTIFICATION_CACHE_KEY = useMemo(() => 
-    address ? ['notifications', address] : null
-  , [address]);
-
-  // Refetch notifications function
-  const refetchNotifications = useCallback(() => {
-    if (NOTIFICATION_CACHE_KEY) {
-      mutate(NOTIFICATION_CACHE_KEY);
-    }
-  }, [NOTIFICATION_CACHE_KEY]);
-
   const addNotification = (newNotification: Notification) => {
     setNotifications((prevNotifications) => [
       ...prevNotifications,
@@ -145,7 +130,6 @@ export default function Notification({ isOpen, address }: NotificationProps) {
         buttons: newNotification.buttons,
       },
     ]);
-    
   };
 
   const handleMarkAllAsRead = () => {
@@ -221,18 +205,18 @@ export default function Notification({ isOpen, address }: NotificationProps) {
             }
 
             const contract = Contract(listing.assetContract);
-           const nft = await fetchNFT(
-                contract,
-                listing.tokenType,
-                listing.tokenId
-              );
+            const nft = await fetchNFT(
+              contract,
+              listing.tokenType,
+              listing.tokenId
+            );
             if (!nft?.metadata.image) {
               throw new Error(
                 `Missing NFT metadata for listing: ${listing.listingId}`
               );
             }
 
-            const currency =  tokenInfo(listing.currency);
+            const currency = tokenInfo(listing.currency);
             const now = Math.floor(Date.now() / 1000);
             const remainingSeconds = Number(expirationTime) - now;
             const remainingDays = Math.ceil(remainingSeconds / 86400);
@@ -266,7 +250,6 @@ export default function Notification({ isOpen, address }: NotificationProps) {
               `Failed to process notification for listing ${listingId}:`,
               error
             );
-             throw error; 
           }
         })
       );
@@ -312,30 +295,21 @@ export default function Notification({ isOpen, address }: NotificationProps) {
     }
   }, [address]);
 
-   const {
-     data: offers,
-     isLoading,
-     error,
-   } = useSWR(NOTIFICATION_CACHE_KEY, fetchMyNotifications, {
-     refreshInterval: 30000, // Poll every 30 seconds
-     revalidateOnFocus: true,
-     revalidateOnReconnect: true,
-    //  refreshWhenHidden: true, // Continue polling even when tab is not active
-     shouldRetryOnError: true,
-     dedupingInterval: 5000, // Prevent multiple simultaneous requests
-     onSuccess: (data) => {
-       if (data && Array.isArray(data)) {
-         setNotifications(data);
-       }
-     },
-     onError: (err) => {
-       console.error("SWR Error:", err);
-       toast.error("Failed to fetch notifications");
-     },
-   });
+  const {
+    data: offers,
+    isLoading,
+    error,
+  } = useSWR(
+    address ? "notif" : null, // Use address as part of the key
+    fetchMyNotifications,
+    {
+      revalidateOnReconnect: true,
+      revalidateOnFocus: true,
+      revalidateIfStale: true,
+      refreshInterval: 30000,
+    }
+  );
 
-
- 
   useEffect(() => {
     if (offers && Array.isArray(offers)) {
       setNotifications(offers);
@@ -349,187 +323,96 @@ export default function Notification({ isOpen, address }: NotificationProps) {
     setUnreadCount(unreadNotifications.length);
   }, [notifications, readNotifications, setUnreadCount]);
 
-  // useEffect(() => {
-  //   if (!address) return;
-  //   const fetchEvents = async () => {
-  //     const myListings = await getMyListings(address);
-
-  //     const newOfferEvent = prepareEvent({
-  //       signature:
-  //         "event NewOffer( uint256 indexed totalPrice, uint256 indexed expirationTime, uint256 indexed listingId, address sender, uint256 id)",
-  //       filters: {
-  //         listingId: myListings.map((listing: any) => listing.listingId),
-  //       },
-  //     });
-
-  //     const unwatch = await watchContractEvents({
-  //       contract: marketContract,
-  //       events: [newOfferEvent],
-  //       onEvents: (events) => {
-  //         events.forEach(async (event) => {
-  //           const { args, transactionHash } = event;
-  //           const { listingId, totalPrice, expirationTime, id } = args;
-
-  //           const listing = await getListing(listingId);
-
-  //           if (!listing) {
-  //             return;
-  //           }
-  //           const contract = Contract(listing.assetContract);
-  //          const nft = await fetchNFT(
-  //               contract,
-  //               listing.tokenType,
-  //               listing.tokenId
-  //             );
-
-  //           if (!nft?.metadata.image) {
-  //             console.error(
-  //               "Missing NFT metadata for listing:",
-  //               listing.listingId
-  //             );
-  //           }
-  //           const currency = tokenInfo(listing.currency);
-
-  //           const now = Math.floor(Date.now() / 1000);
-
-  //           const remainingSeconds = Number(expirationTime) - now;
-  //           const remainingDays = Math.ceil(remainingSeconds / 86400);
-
-  //           let expireTime =
-  //             remainingDays <= 0
-  //               ? "Expired"
-  //               : remainingDays === 1
-  //               ? "1 Day Left"
-  //               : `${remainingDays} Days left`;
-
-  //           addNotification({
-  //             id: transactionHash,
-  //             action: "You have received an offer",
-  //             time: now,
-  //             tokenId: listing?.tokenId?.toString(),
-  //             totalPrice,
-  //             expirationTime: expireTime,
-  //             currency: currency?.symbol,
-  //             name: nft?.metadata.name!,
-  //             image: ipfsToHttp(nft?.metadata?.image!),
-  //             notificationType: "offer",
-  //             buttons: {
-  //               declineLabel: "Decline",
-  //               acceptLabel: "Accept",
-  //               declineAction: () => handleRejectOffer(id, listingId),
-  //               acceptAction: () => handleAcceptOffer(id, listingId),
-  //             },
-  //           });
-  //         });
-  //       },
-  //     });
-
-  //     return () => unwatch();
-  //   };
-
-  //   fetchEvents();
-  // }, [ address]);
-
-
-   useEffect(() => {
+  useEffect(() => {
     if (!address) return;
+    const fetchEvents = async () => {
+      const myListings = await getMyListings(address);
 
-    let unwatch: (() => void) | undefined;
+      const newOfferEvent = prepareEvent({
+        signature:
+          "event NewOffer( uint256 indexed totalPrice, uint256 indexed expirationTime, uint256 indexed listingId, address sender, uint256 id)",
+        filters: {
+          listingId: myListings.map((listing: any) => listing.listingId),
+        },
+      });
 
-    const setupEventListener = async () => {
-      try {
-        const myListings = await getMyListings(address);
-        
-        const newOfferEvent = prepareEvent({
-          signature: "event NewOffer(uint256 indexed totalPrice, uint256 indexed expirationTime, uint256 indexed listingId, address sender, uint256 id)",
-          filters: {
-            listingId: myListings.map((listing: any) => listing.listingId),
-          },
-        });
+      const unwatch = await watchContractEvents({
+        contract: marketContract,
+        events: [newOfferEvent],
+        onEvents: (events) => {
+          events.forEach(async (event) => {
+            const { args, transactionHash } = event;
+            const { listingId, totalPrice, expirationTime, id } = args;
 
-        unwatch = await watchContractEvents({
-          contract: marketContract,
-          events: [newOfferEvent],
-          onEvents: async (events) => {
-            for (const event of events) {
-              try {
-                const { args, transactionHash } = event;
-                const { listingId, totalPrice, expirationTime, id } = args;
+            const listing = await getListing(listingId);
 
-                const listing = await getListing(listingId);
-                if (!listing) continue;
+            if (!listing) {
+              return;
+            }
+            const contract = Contract(listing.assetContract);
+            const nft = await fetchNFT(
+              contract,
+              listing.tokenType,
+              listing.tokenId
+            );
 
-                const contract = Contract(listing.assetContract);
-                const nft = await fetchNFT(contract, listing.tokenType, listing.tokenId);
-                if (!nft?.metadata.image) continue;
+            if (!nft?.metadata.image) {
+              console.error(
+                "Missing NFT metadata for listing:",
+                listing.listingId
+              );
+            }
+            const currency = tokenInfo(listing.currency);
 
-                const currency = tokenInfo(listing.currency);
-                const now = Math.floor(Date.now() / 1000);
+            const now = Math.floor(Date.now() / 1000);
+
             const remainingSeconds = Number(expirationTime) - now;
             const remainingDays = Math.ceil(remainingSeconds / 86400);
-                const expireTime =
-                  remainingDays <= 0
-                    ? "Expired"
-                    : remainingDays === 1
-                    ? "1 Day Left"
-                    : `${remainingDays} Days left`;
-                addNotification({
-                  id: transactionHash,
-                  action: "You have received an offer",
-                  time: now,
-                  tokenId: listing.tokenId.toString(),
-                  totalPrice,
-                  expirationTime: expireTime,
-                  currency: currency?.symbol,
-                  name: nft.metadata.name!,
-                  image: ipfsToHttp(nft.metadata.image!),
-                  notificationType: "offer",
-                  buttons: {
-                    declineLabel: "Decline",
-                    acceptLabel: "Accept",
-                    declineAction: () => handleRejectOffer(id, listingId),
-                    acceptAction: () => handleAcceptOffer(id, listingId),
-                  },
-                });
 
-                // Trigger a refetch after adding a new notification
-                refetchNotifications();
-              } catch (error) {
-                console.error("Error processing event:", error);
-              }
-            }
-          },
-        });
-      } catch (error) {
-        console.error("Error setting up event listener:", error);
-      }
+            let expireTime =
+              remainingDays <= 0
+                ? "Expired"
+                : remainingDays === 1
+                ? "1 Day Left"
+                : `${remainingDays} Days left`;
+
+            addNotification({
+              id: transactionHash,
+              action: "You have received an offer",
+              time: now,
+              tokenId: listing?.tokenId?.toString(),
+              totalPrice,
+              expirationTime: expireTime,
+              currency: currency?.symbol,
+              name: nft?.metadata.name!,
+              image: ipfsToHttp(nft?.metadata?.image!),
+              notificationType: "offer",
+              buttons: {
+                declineLabel: "Decline",
+                acceptLabel: "Accept",
+                declineAction: () => handleRejectOffer(id, listingId),
+                acceptAction: () => handleAcceptOffer(id, listingId),
+              },
+            });
+          });
+        },
+      });
+
+      return () => unwatch();
     };
 
-    setupEventListener();
+    fetchEvents();
+  }, [address]);
 
-    // Cleanup function
-    return () => {
-      if (unwatch) {
-        unwatch();
-      }
-    };
-  }, [address, addNotification, refetchNotifications]);
-
-  // ... (rest of the component remains the same)
   const message = useMemo(() => {
-   
-    if(isLoading) {
-     return "Wait a moment for your notifications"
-    }
-    else if(error) {
-      return "Error occured while fetching notifications"
-    }
-    else if(!isLoading && notifications.length === 0){
+    if (isLoading) {
+      return "Wait a moment for your notifications";
+    } else if (error) {
+      return "Error occured while fetching notifications";
+    } else if (!isLoading && notifications.length === 0) {
       return "You have no notifications at the moment";
     }
-
-
-  }, [isLoading, error, notifications.length])
+  }, [isLoading, error, notifications.length]);
 
   if (!isOpen) {
     return null;
@@ -556,7 +439,9 @@ export default function Notification({ isOpen, address }: NotificationProps) {
 
             {/* Notifications list */}
             {message ? (
-              <div className="w-full flex justify-center items-center p-4">{message}</div>
+              <div className="w-full flex justify-center items-center p-4">
+                {message}
+              </div>
             ) : (
               <div className="divide-y">
                 {notifications
