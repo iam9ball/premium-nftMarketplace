@@ -590,11 +590,11 @@ try {
   const amount = toWei(bidAmount);
 
   const auction = await getAuction(auctionId)
-   let fee: bigint | undefined;
+   let fee: bigint;
     if(auction.currency == NATIVE_TOKEN) {
       fee = amount
     } else {
-      fee = undefined
+      fee = BigInt(0)
     }
 
   const transaction = prepareContractCall({

@@ -558,12 +558,12 @@ export const createListing = async (
 ) => {
   try {
     const data = await listingTypeInfo(listingPlan);
-    let fee: bigint | undefined;
+    let fee: bigint;
     if (currencyAddress == NATIVE_TOKEN) {
       fee = await listingFee(currencyAddress, data?.[1]!);
       console.log(fee);
     } else {
-      fee = undefined;
+      fee = BigInt(0);
     }
 
     // Approve the contract
@@ -650,7 +650,7 @@ export const buyListing = async (
   account: Account
 ) => {
   try {
-    let fee: bigint | undefined;
+    let fee: bigint ;
 
     const data = await readContract({
       contract: marketContract,
@@ -662,7 +662,7 @@ export const buyListing = async (
       fee = data.pricePerToken;
       console.log(fee);
     } else {
-      fee = undefined;
+      fee = BigInt(0);
     }
 
     const transaction = prepareContractCall({
@@ -805,7 +805,7 @@ export const updateListingPlan = async (
       params: [listingId],
     });
 
-    let fee: bigint | undefined;
+    let fee: bigint;
 
     if (listing.currency == NATIVE_TOKEN) {
       const data = await readContract({
@@ -820,7 +820,7 @@ export const updateListingPlan = async (
         params: [listing.currency, data[1]],
       });
     } else {
-      fee = undefined;
+      fee = BigInt(0);
     }
 
     const transaction = prepareContractCall({
