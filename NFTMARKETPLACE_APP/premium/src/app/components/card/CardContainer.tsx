@@ -5,7 +5,6 @@ interface CardContainerProps {
 
 export const CardContainer = ({ children, className = "" }: CardContainerProps) => {
   return (
-    // <div className="w-full min-h-screen py-6 px-10">
       <div className={`
         grid
         grid-cols-1
@@ -21,6 +20,5 @@ export const CardContainer = ({ children, className = "" }: CardContainerProps) 
       `}>
         {children}
       </div>
-    // </div>
   );
 };

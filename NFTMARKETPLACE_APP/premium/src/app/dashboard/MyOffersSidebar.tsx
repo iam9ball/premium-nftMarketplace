@@ -183,56 +183,7 @@ export default function MyOffersSidebar({
                     </span>
                   </div>
                 </div>
-                {/* <div className="space-y-2 max-h-[40vh] overflow-y-auto rounded-lg border border-gray-200">
-                <div
-                  className="flex flex-col sm:flex-row sm:items-center justify-between 
-                      p-3 sm:p-4 hover:bg-gray-50 transition-colors border-b 
-                      last:border-b-0 border-gray-200 gap-3 sm:gap-4"
-                >
-                  <span className="font-medium text-sm sm:text-base text-center md:text-start">
-                    {isLoading ? (
-                      <span className="font-medium text-sm sm:text-base text-gray-500">
-                        Loading...
-                      </span>
-                    ) : error ? (
-                      <span className="font-medium text-xs  text-red-500">
-                        {error}
-                      </span>
-                    ) : buyer && buyer !== ZERO_ADDRESS ? (
-                      <span className="font-medium text-sm sm:text-base">
-                        {shortenAddress(buyer)}
-                      </span>
-                    ) : (
-                      <span className="font-medium text-sm sm:text-base text-gray-500">
-                        No approved buyer, Approve a buyer
-                      </span>
-                    )}
-                  </span>
-                  <div className="flex gap-2 sm:gap-3">
-                    {buyer && buyer == ZERO_ADDRESS ? (
-                      <button
-                        className="flex-1 sm:flex-none bg-green-500 hover:bg-green-600 
-                          text-white font-semibold py-2 px-3 rounded text-xs sm:text-sm 
-                          flex items-center justify-center transition-colors"
-                        onClick={handleOpenApproveBuyerForListing}
-                      >
-                        <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1" />
-                        Approve
-                      </button>
-                    ) : (
-                      <button
-                        className="flex-1 sm:flex-none bg-red-500 hover:bg-red-600 
-                          text-white font-semibold py-2 px-3 rounded text-xs sm:text-sm 
-                          flex items-center justify-center transition-colors"
-                        onClick={handleRemoveApprovedBuyerForListing}
-                      >
-                        <UserMinus className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1" />
-                        Remove
-                      </button>
-                    )}
-                  </div>
-                </div>
-                {/* ))} */}
+               
               </div>
             </div>
           </div>

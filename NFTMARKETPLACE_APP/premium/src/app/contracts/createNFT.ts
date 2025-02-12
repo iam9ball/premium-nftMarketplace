@@ -6,7 +6,6 @@ import {FieldValues} from "react-hook-form";
 import { TOKENTYPE } from "../components/modal/CreateNftModal";
 import { Contract } from "../utils/Contract";
 import { chain } from "../constant";
-// import {} from "thirdweb/extensions/"
 
 
 async function deploySingleNFT(account: Account, params: FieldValues) {
@@ -114,11 +113,7 @@ export default async function createNFT(account: Account, params:FieldValues) {
     }
   } catch (error:any) {
     throw error;
-    // return {
-    //   success: false,
-    //   message: "Unexpected error occured, Try again",
-      
-    // }
+    
   }
   
 } 

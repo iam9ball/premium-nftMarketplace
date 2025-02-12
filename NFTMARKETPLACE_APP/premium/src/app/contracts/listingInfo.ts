@@ -23,7 +23,6 @@ export const listingTypeInfo = async (params: ListingType) => {
   } catch (error) {
    
     throw error
-    // Handle the error appropriately
    
   }
 }
@@ -40,7 +39,6 @@ export const listingFee = async (currency: string, price:bigint) => {
   } 
   catch (error) {
    throw error;
-    // Handle the error appropriately
    
  }
 }
@@ -57,9 +55,7 @@ export const listings = async () => {
      method:"getAllListings",
       params: []
   });
-  // console.log("data")
-  // console.log(data.length)
-
+  
   if (!data) {
      return []
     }

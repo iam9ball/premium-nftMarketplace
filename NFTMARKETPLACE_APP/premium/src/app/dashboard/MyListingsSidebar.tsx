@@ -132,17 +132,13 @@ export default function MyListingsSidebar({
     const getBuyer = async (listing: ListingItem) => {
       try {
 
-        // if (!listing?.listingId) {
-        //   setBuyer(ZERO_ADDRESS);
-        //   return;
-        // }
+       
         const buyer = await getApprovedBuyer(listing.listingId);
         setIsLoading(false);
         setBuyer(buyer || ZERO_ADDRESS); // Ensure we never set undefined
       } catch (error) {
         console.error("Error fetching approved buyer:", error);
         setError("Error fetching approved buyer");
-        // setBuyer(ZERO_ADDRESS); // Set to ZERO_ADDRESS on error
       }
     };
 

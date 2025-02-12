@@ -20,7 +20,6 @@ export const getOffer = async (offerId:bigint, listingId:bigint) => {
     return data;
   } catch (error) {
     console.error(error);
-    // Handle the error appropriately
     throw error;
   }
 }
@@ -42,7 +41,6 @@ export const getAllOffers = async (listingId:bigint) => {
     return data;
   } catch (error) {
     console.error(error);
-    // Handle the error appropriately
     throw error;
   }
 }

@@ -41,7 +41,6 @@ export default  async function Marketplace () {
     
   } catch(error) {
      console.error("Error in middleware", error);
-      // showToast("Please log in", "Connect your wallet to login.");
        redirect("/marketplace?redirected=true"); 
   }
   

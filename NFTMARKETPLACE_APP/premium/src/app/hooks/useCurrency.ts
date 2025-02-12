@@ -40,38 +40,13 @@ const DAI_ADDR = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
     }
    }
   
-  // Add more tokens as needed
 };
 
 
 
 
 
-// export const fetchCurrencyInfo = async (contractAddress: string) => {
-//   try {
-//   let response;
-//     if (contractAddress.toLowerCase() ==  NATIVE_TOKEN.toLowerCase()) {
-//      const address = "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0"  //use wrapped matic
-//           response = await fetch(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${address}`); 
-        
-//     }
-//     else {
-//         response = await fetch(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}`);
-//     }
-   
-    
-//           if (!response?.ok) {
-//             throw new Error(`Failed to fetch token info for ${contractAddress}`);
-//           }
 
-//           const data = await response.json();
-//           return data;
-//         }
-//        catch (error) {
-//         console.error("Failed to fetch currency info");
-//         throw error
-//       }
-//     }
 
 
 export const useCurrency = () => {

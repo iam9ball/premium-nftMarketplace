@@ -86,15 +86,6 @@ export default function Button({
   }, [defaultConnectButton]);
 
 
-//   const chain = defineChain({
-//   id: 80002,
-//   rpc: "https://polygon-amoy.g.alchemy.com/v2/8w2qoqibC8Swp9qjQ5KdZI4jRjf7H8E5",
-//   nativeCurrency: {
-//     name: "Polygon Amoy",
-//     symbol: "POL",
-//     decimals: 18,
-//   },
-// });
 
   const handleConnect = () => {
     console.log("Connecting...");

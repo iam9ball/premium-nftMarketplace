@@ -27,14 +27,7 @@ export default function CurrencySelect({
     onChange,
   }: CountrySelectProps) {
   const { currency, isLoading, error } = useCurrency();
-  // const [selectedCurrency, setSelectedCurrency] = useState<CurrencySelectValue | null>(null);
-//  const {selectedCurrency, setSelectedCurrency} = useSelectedCurrency()
 
-
-
-  // const formattedCurrency = useMemo(() => {
-  //   currency.map((item) => item.address === "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0" ? {...item, address: NATIVE_TOKEN} : item )
-  // }, [currency])
 
   return (
     <div className="">

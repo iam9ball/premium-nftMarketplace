@@ -10,8 +10,6 @@ import {Multicall} from "@thirdweb-dev/contracts/extension/Multicall.sol";
 import {RoyaltyPaymentsLogic} from "@thirdweb-dev/contracts/extension/upgradeable/RoyaltyPayments.sol";
 import {ReentrancyGuardInit} from "@thirdweb-dev/contracts/extension/upgradeable/init/ReentrancyGuardInit.sol";
 import {ApprovedCurrencyLibStorage} from "./chainlink/priceFeed/ApprovedCurrencyLibStorage.sol";
-// import {OfferStorage} from "./extensions/offer/OfferStorage.sol";
-// import {IOffer} from "./extensions/offer/IOffer.sol";
 
 
 
@@ -244,15 +242,5 @@ contract MarketplaceRouter is
         return currency;
     }
     
-//     function getOfferStorageData()
-//         internal
-//         pure
-//         returns (OfferStorage.Data storage _data)
-//     {
-//         _data = OfferStorage.data();
-//     }
-  
-//   function getOffer() external view returns (IOffer.Offer memory offer) {
-//    offer = getOfferStorageData().listingIdToOffer[1][1];
-//   }
+
 }

@@ -3,8 +3,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite';
 import { useInView } from 'react-intersection-observer';
-// import { listings } from '../contracts/listingInfo';
-// import useInfiniteScrollStore from "./useInfiniteScrollStore";
+
 
 
 interface InfiniteScrollOptions<T> {

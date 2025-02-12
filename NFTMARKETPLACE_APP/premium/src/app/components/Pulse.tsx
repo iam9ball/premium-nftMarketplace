@@ -32,4 +32,3 @@ const Pulse = ({isAnimating}: PulseProps) => {
 
 export default Pulse;
 
-// Tailwind config addition remains the same as previous example

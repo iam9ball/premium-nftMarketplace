@@ -20,9 +20,7 @@ import { Contract } from '@/app/utils/Contract';
 import { toEther } from 'thirdweb';
 import { shortenAddress } from 'thirdweb/utils';
 
-// const shortenAddress = (address: string) => {
-//   return `${address.slice(0, 6)}...${address.slice(-4)}`;
-// };
+
 
 
 
